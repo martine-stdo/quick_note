@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>身份认证</title>
+{% endblock %}
+
+{% block body %}
+<script>
+    function setCookie(name, value, expiryDays) {
+        var d = new Date();
+        d.setTime(d.getTime() + (expiryDays * 24 * 60 * 60 * 1000));
+        var expires = "expires=" + d.toUTCString();
+        document.cookie = name + "=" + value + ";" + expires + ";path=/";
+    }
+
+    function Sbumit() {
+        const form = document.querySelector('form');
+        fetch("/authorize/", { method: "POST", body: new FormData(form) })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === true) {
+                    const cookie = data.cookie
+                    setCookie('my_cookie', cookie, 999)
+                    window.location = '/'
+                } else {
+                    window.location = 'https://www.errore.ink/';
+                }
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    }
+
+</script>
+
+<div align="center" border="1">
+    <form name="passwd">
+        <input type="text" name="content" id="content">
+    </form>
+    <button onclick="Sbumit()">提交</button>
+</div>
+{% endblock %}
