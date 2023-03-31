@@ -6,8 +6,8 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
 db = SQLAlchemy(app)
 #根据自己的情况修改这两行的参数
-cookie = "填入一个随机cookie" # 可以是任意的一个数字或字符串
-passwd = "填入你的免密" #自己定义
+cookie = "" # 可以是任意的一个数字或字符串
+passwd = "" #自己定义
 
 def check_cookies(request):
     try:
