@@ -5,36 +5,37 @@
 {% endblock %}
 
 {% block body %}
-<div class="content">
-    <h1 style="text-align: center">任务清单兼备忘录</h1>
+<div class="main_bg">
+    <div class="main_content">
+        <h1 style="text-align: center">任务清单兼备忘录</h1>
 
-    {% if tasks|length < 1 %}
-    <h4 style="text-align: center">无事一身轻，给自己找点事干吧！</h4>
-    {% else %}
-    <table align="center" border="1">
-        <tr>
-            <th>Task</th>
-            <th>Added</th>
-            <th>Actions</th>
-        </tr>
-        {% for task in tasks %}
-        <tr>
-            <td>{{ task.content }}</td>
-            <td>{{ task.date_created.strftime('%Y-%m-%d %H:%M') }}</td>
-            <td>
-                <a href="/delete/{{ task.id }}">Delete</a>
-                <br>
-                <a href="/update/{{ task.id }}">Update</a>
-            </td>
-        </tr>
-        {% endfor %}
-    </table>
-    {% endif %}
+        {% if tasks|length < 1 %} <h4 style="text-align: center">无事一身轻，给自己找点事干吧！</h4>
+            {% else %}
+            <table align="center" border="1">
+                <tr>
+                    <th>Task</th>
+                    <th>Added</th>
+                    <th>Actions</th>
+                </tr>
+                {% for task in tasks %}
+                <tr>
+                    <td>{{ task.content }}</td>
+                    <td>{{ task.date_created.strftime('%Y-%m-%d %H:%M') }}</td>
+                    <td>
+                        <a href="/delete/{{ task.id }}">Delete</a>
+                        <br>
+                        <a href="/update/{{ task.id }}">Update</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+            {% endif %}
 
 
-    <form action="/" method="POST" align="center" border="1">
-        <input type="text" name="content" id="content">
-        <input type="submit" value="Add Task">
-    </form>
+            <form action="/" method="POST" align="center" border="1">
+                <input type="text" name="content" id="content">
+                <input type="submit" value="Add Task">
+            </form>
+    </div>
 </div>
-{% endblock %}
+    {% endblock %}

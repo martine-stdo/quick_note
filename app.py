@@ -5,11 +5,14 @@ from datetime import datetime
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
 db = SQLAlchemy(app)
+#根据自己的情况修改这两行的参数
+cookie = "填入一个随机cookie" # 可以是任意的一个数字或字符串
+passwd = "填入你的免密" #自己定义
 
 def check_cookies(request):
     try:
         task_cookies = request.cookies['my_cookie']
-        return task_cookies == "sjdfiaifjd6s5ihfd9i512951"
+        return task_cookies == cookie
     except:
         return False
 
@@ -36,7 +39,7 @@ def index():  # put application's code here
             except:
                 return 'There was an issue adding your task!'
         else :
-                return redirect('https://www.errore.ink/')
+                return redirect('/error_404/')
     else:
         if check_cookies(request):
             tasks = Todo.query.order_by(Todo.date_created).all()
@@ -57,7 +60,7 @@ def delete(id):
         except:
             return 'There was a problem deleting that task'
     else:
-         return redirect('https://www.errore.ink/')
+         return redirect('/error_404/')
 
 @app.route('/update/<int:id>', methods=['GET', 'POST'])
 def update(id):
@@ -76,7 +79,7 @@ def update(id):
         else:
             return render_template('update.html', task=task)
     else:
-         return redirect('https://www.errore.ink/')
+         return redirect('/error_404/')
 
 
 @app.route('/authorize/', methods=['POST'])
@@ -84,11 +87,14 @@ def authorize():  # put application's code here
 
     if request.method == 'POST':   
         user_password = request.form['content']
-        if user_password == "123456007":
-            return "{\"status\":true,\"cookie\":\"sjdfiaifjd6s5ihfd9i512951\"}"
+        if user_password == passwd:
+            return "{\"status\":true,\"cookie\":\cookie\"}"
         else:
             return "{\"status\":false,\"cookie\":\"\"}"
-
+        
+@app.route('/error_404/',methods=['GET'])
+def error_404():
+    return render_template('error.html')
 
 if __name__ == '__main__':
     app.run(debug=True)

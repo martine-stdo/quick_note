@@ -23,7 +23,7 @@
                     setCookie('my_cookie', cookie, 999)
                     window.location = '/'
                 } else {
-                    window.location = 'https://www.errore.ink/';
+                    window.location = '/error_404/';
                 }
             })
             .catch(error => {
@@ -32,11 +32,13 @@
     }
 
 </script>
-
-<div align="center" border="1">
-    <form name="passwd">
-        <input type="text" name="content" id="content">
-    </form>
-    <button onclick="Sbumit()">提交</button>
+<div class="authorize_player">
+    <h1>请输入认证密码</h1>
+    <div class="authorize_content">
+        <form name="passwd">
+            <input type="text" name="content" id="content">
+        </form>
+        <button onclick="Sbumit()">提交</button>
+    </div>
 </div>
 {% endblock %}
