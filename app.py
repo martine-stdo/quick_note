@@ -1,17 +1,26 @@
 from flask import Flask, render_template, url_for, request, redirect
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
+import json
+import hashlib
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
 db = SQLAlchemy(app)
-#根据自己的情况修改这两行的参数
-cookie = "" # 可以是任意的一个数字或字符串
-passwd = "" #自己定义
+### 需要你做更改的部分
+cookie = "请随机输入一个cookie"
+passwd = "请填入你的密码"
+
+# 使用MD5算法对密码进行加密处理
+def encrypt_password(password):
+    hash_md5 = hashlib.md5()
+    hash_md5.update(password.encode('utf-8'))
+    return hash_md5.hexdigest()
+
 
 def check_cookies(request):
     try:
-        task_cookies = request.cookies['my_cookie']
+        task_cookies = request.cookies.get('my_cookie')
         return task_cookies == cookie
     except:
         return False
@@ -87,10 +96,15 @@ def authorize():  # put application's code here
 
     if request.method == 'POST':   
         user_password = request.form['content']
-        if user_password == passwd:
-            return "{\"status\":true,\"cookie\":\cookie\"}"
+        
+        encrypted_password = encrypt_password(passwd)
+
+        if encrypted_password == user_password:
+            response = {"status":True, "cookie": cookie}
         else:
-            return "{\"status\":false,\"cookie\":\"\"}"
+            response = {"status":False, "cookie": ""}
+        my_json = json.dumps(response)
+        return my_json
         
 @app.route('/error_404/',methods=['GET'])
 def error_404():
