@@ -22,7 +22,7 @@
 ## 使用方法
 1. 具备python3环境
 2. 运行```pip3 install virtualenv```安装python虚拟环境
-3. ```pip3 virtual env```创建一个python虚拟环境
+3. ```python -m venv myenv```创建一个python虚拟环境
 4. 激活python虚拟化境
 * 对于windows平台：```env/Scripts/activate```
 * 对于Linux平台：```source env/bin/activate ```
